@@ -1,75 +1,92 @@
-<div class="container">
-    <h1>JUNO - AI Code Assistant 🤖</h1>
-    <p>A powerful <strong>command-line AI assistant, JUNO AI</strong> that can both <strong>edit code files</strong> and act as a <strong>general-purpose AI chatbot</strong>.</p>
+# JUNO - AI Code Assistant 🤖
 
-    <h2>✨ Features</h2>
-    <ul class="feature-list">
-      <li><strong>Dual Mode Operation</strong>
-        <ul>
-          <li>Code editor when a file is loaded</li>
-          <li>General-purpose AI chat when no file is loaded</li>
-        </ul>
-      </li>
-      <li><strong>File Suggestions</strong> – Smart tab completion with <code>load @prefix</code> syntax</li>
-      <li><strong>Rich Interface</strong> – Beautiful terminal UI with syntax highlighting</li>
-      <li><strong>Multiple Models</strong> – Supports GGUF models like <em>DeepSeek</em>, <em>Mistral</em>, <em>CodeLlama</em>, <em>Phi</em>, and more</li>
-    </ul>
+A powerful **command-line AI assistant, JUNO AI** that can both **edit code files** and act as a **general-purpose AI chatbot**.  
 
-    <hr>
+## ✨ Features
 
-    <h2>🚀 Step-by-Step Setup Guide</h2>
+- **Dual Mode Operation**  
+  - Code editor when a file is loaded  
+  - General-purpose AI chat when no file is loaded  
 
-    <h3>Step 1: Clone or Download the Project</h3>
-    <pre><code># If you have git:
-git clone &lt;your-repository-url&gt;
+- **File Suggestions**  
+  - Smart tab completion with `load @prefix` syntax  
+
+- **Rich Interface**  
+  - Beautiful terminal UI with syntax highlighting  
+
+- **Multiple Models**  
+  - Supports GGUF models like **DeepSeek**, **Mistral**, **CodeLlama**, **Phi**, and more  
+
+---
+
+## 🚀 Step-by-Step Setup Guide
+
+### Step 1: Clone or Download the Project
+```bash
+# If you have git:
+git clone <your-repository-url>
 cd ai-code-assistant
 
 # If you don't have git, download the ZIP file and extract it
 # then open terminal in the extracted folder
-</code></pre>
+```
 
-    <h3>Step 2: Install Python Dependencies</h3>
-    <pre><code># Make sure you have Python 3.8+ installed
+### Step 2: Install Python Dependencies
+```bash
+# Make sure you have Python 3.8+ installed
 pip install -r requirements.txt
-</code></pre>
+```
 
-    <h3>Step 3: Download the AI Model</h3>
-    <p>Create the <code>models</code> directory:</p>
-    <pre><code>mkdir -p models</code></pre>
+### Step 3: Download the AI Model
 
-    <h4>Method A: Using wget (Linux/Mac/WSL)</h4>
-    <pre><code>cd models
+Create the models directory:
+```bash
+mkdir -p models
+```
+
+#### Method A: Using wget (Linux/Mac/WSL)
+```bash
+cd models
 wget https://huggingface.co/TheBloke/deepseek-coder-6.7B-instruct-GGUF/resolve/main/deepseek-coder-6.7b-instruct.Q4_K_M.gguf
 cd ..
-</code></pre>
+```
 
-    <h4>Method B: Using curl (Linux/Mac/WSL)</h4>
-    <pre><code>cd models
+#### Method B: Using curl (Linux/Mac/WSL)
+```bash
+cd models
 curl -L -o deepseek-coder-6.7b-instruct.Q4_K_M.gguf https://huggingface.co/TheBloke/deepseek-coder-6.7B-instruct-GGUF/resolve/main/deepseek-coder-6.7b-instruct.Q4_K_M.gguf
 cd ..
-</code></pre>
+```
 
-    <h4>Method C: Manual Download (Windows/Mac)</h4>
-    <ol>
-      <li>Open <a href="https://huggingface.co/TheBloke/deepseek-coder-6.7B-instruct-GGUF/blob/main/deepseek-coder-6.7b-instruct.Q4_K_M.gguf" target="_blank" rel="noopener">this link</a></li>
-      <li>Click <strong>Download</strong></li>
-      <li>Save the file into the <code>models/</code> folder</li>
-      <li>Ensure the filename is exactly: <br><code>deepseek-coder-6.7b-instruct.Q4_K_M.gguf</code></li>
-    </ol>
+#### Method C: Manual Download (Windows/Mac)
+1. Open [this link](https://huggingface.co/TheBloke/deepseek-coder-6.7B-instruct-GGUF/blob/main/deepseek-coder-6.7b-instruct.Q4_K_M.gguf)  
+2. Click **Download**  
+3. Save the file into the `models/` folder  
+4. Ensure the filename is exactly:  
+   ```
+   deepseek-coder-6.7b-instruct.Q4_K_M.gguf
+   ```
 
-    <h3>Step 4: Verify the Model File</h3>
-    <pre><code>ls -la models/
+### Step 4: Verify the Model File
+```bash
+ls -la models/
 # You should see:
 # deepseek-coder-6.7b-instruct.Q4_K_M.gguf
-</code></pre>
+```
 
-    <h3>Step 5: Run the Application</h3>
-    <pre><code>python src/main.py</code></pre>
+### Step 5: Run the Application
+```bash
+python src/main.py
+```
 
-    <hr>
+---
 
-    <h2>⚡ Quick Start Examples</h2>
-    <pre><code># Load a file with auto-completion
+## ⚡ Quick Start Examples
+
+Once the app is running, try:
+
+```bash
+# Load a file with auto-completion
 > load @         # Press Tab to see all files
 > load @h        # Press Tab to see files starting with 'h'
 
@@ -83,13 +100,15 @@ cd ..
 
 # Show available commands
 > help
-</code></pre>
+```
 
-    <hr>
+---
+## 🆕 Auto-File Creation
 
-    <h2>🆕 Auto-File Creation</h2>
-    <p>The assistant can automatically create files if they don't exist:</p>
-    <pre><code># Create a new Python file
+The assistant can automatically create files if they don't exist:
+
+```bash
+# Create a new Python file
 > load new_script.py
 ⚠ File 'new_script.py' doesn't exist.
 Create new file 'new_script.py'? [Y/n]: y
@@ -108,61 +127,47 @@ Available templates:
   5. Markdown
 Select template (1-5 or Enter for empty): 2
 ✅ Created new file: 'utils/helpers.py'
-</code></pre>
+## 🛠 Troubleshooting
 
-    <hr>
+- **Model not found error:**  
+  - Ensure the model file is in the `models/` folder  
+  - Filename must be exactly `deepseek-coder-6.7b-instruct.Q4_K_M.gguf`  
 
-    <h2>🛠 Troubleshooting</h2>
-    <ul>
-      <li><strong>Model not found error:</strong>
-        <ul>
-          <li>Ensure the model file is in the <code>models/</code> folder</li>
-          <li>Filename must be exactly <code>deepseek-coder-6.7b-instruct.Q4_K_M.gguf</code></li>
-        </ul>
-      </li>
-      <li><strong>Memory issues:</strong>
-        <ul>
-          <li>The model requires ~4GB RAM for Q4_K_M quantization</li>
-          <li>Close other memory-heavy applications</li>
-        </ul>
-      </li>
-      <li><strong>Slow performance:</strong>
-        <ul>
-          <li>Make sure you have enough RAM</li>
-          <li>First run may be slower due to model loading</li>
-        </ul>
-      </li>
-    </ul>
+- **Memory issues:**  
+  - The model requires ~4GB RAM for Q4_K_M quantization  
+  - Close other memory-heavy applications  
 
-    <hr>
+- **Slow performance:**  
+  - Make sure you have enough RAM  
+  - First run may be slower due to model loading  
 
-    <h2>🔄 Alternative Models</h2>
-    <ul>
-      <li><a href="https://huggingface.co/TheBloke/CodeLlama-7B-Instruct-GGUF" target="_blank" rel="noopener">CodeLlama 7B</a></li>
-      <li><a href="https://huggingface.co/TheBloke/Mistral-7B-Instruct-v0.1-GGUF" target="_blank" rel="noopener">Mistral 7B</a></li>
-      <li><a href="https://huggingface.co/TheBloke/phi-2-GGUF" target="_blank" rel="noopener">Phi-2 3B</a></li>
-    </ul>
+---
 
-    <hr>
+## 🔄 Alternative Models
 
-    <h2>💻 System Requirements</h2>
-    <ul>
-      <li><strong>Python:</strong> 3.8+</li>
-      <li><strong>RAM:</strong> 8GB+ recommended (4GB minimum)</li>
-      <li><strong>Storage:</strong> 4GB+ for the model file</li>
-      <li><strong>OS:</strong> Windows, macOS, or Linux</li>
-    </ul>
+You can try other models by downloading one of these instead:
 
-    <hr>
+- [CodeLlama 7B](https://huggingface.co/TheBloke/CodeLlama-7B-Instruct-GGUF)  
+- [Mistral 7B](https://huggingface.co/TheBloke/Mistral-7B-Instruct-v0.1-GGUF)  
+- [Phi-2 3B](https://huggingface.co/TheBloke/phi-2-GGUF)  
 
-    <h2>🤝 Need Help?</h2>
-    <p>If you run into issues:</p>
-    <ul>
-      <li>Double-check setup steps</li>
-      <li>Verify model file path and filename</li>
-      <li>Ensure enough RAM and disk space</li>
-      <li>Check console logs for error messages</li>
-    </ul>
+---
 
-    <p class="note">Enjoy your <strong>AI Coding Assistant</strong>! 🚀</p>
-  </div>
+## 💻 System Requirements
+
+- **Python:** 3.8+  
+- **RAM:** 8GB+ recommended (4GB minimum)  
+- **Storage:** 4GB+ for the model file  
+- **OS:** Windows, macOS, or Linux  
+
+---
+
+## 🤝 Need Help?
+
+If you run into issues:
+- Double-check setup steps  
+- Verify model file path and filename  
+- Ensure enough RAM and disk space  
+- Check console logs for error messages  
+
+Enjoy your **AI Coding Assistant**! 🚀  
