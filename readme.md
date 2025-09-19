@@ -4,7 +4,7 @@ A powerful **command-line AI assistant, JUNO AI** that can both **edit code file
 
 ## 📸 Screen
 
-### INIT Interface
+### Interface
 ![Starting Interface](images/cli_start.png)
 
 ### Example Response
