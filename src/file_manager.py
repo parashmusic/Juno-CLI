@@ -6,7 +6,7 @@ from rich.prompt import Confirm
 console = Console()
 
 class FileCompleter(Completer):
-    """Custom completer that suggests files with @ prefix"""
+    """Custom completer that suggests files with @ prefix and handles nested directories"""
     def get_completions(self, document, complete_event):
         text = document.text_before_cursor
         
@@ -15,26 +15,62 @@ class FileCompleter(Completer):
             prefix = text[6:]  # Get text after 'load @'
             current_dir = os.getcwd()
             
-            # Find all files and directories
+            # Find all files and directories recursively
             all_files = []
-            for item in os.listdir(current_dir):
-                if os.path.isfile(item) and item.startswith(prefix):
-                    all_files.append(item)
+            all_dirs = []
             
-            # Also check in subdirectories if no prefix or partial match
-            if not prefix or len(all_files) < 5:
-                for root, dirs, files in os.walk(current_dir):
-                    for file in files:
-                        if file.startswith(prefix):
-                            rel_path = os.path.relpath(os.path.join(root, file), current_dir)
-                            all_files.append(rel_path)
-                    break  # Only first level for now
+            # Walk through all directories recursively
+            for root, dirs, files in os.walk(current_dir):
+                # Get relative path from current directory
+                rel_root = os.path.relpath(root, current_dir)
+                
+                # Add files that match the prefix
+                for file in files:
+                    if file.startswith(prefix):
+                        if rel_root == '.':
+                            file_path = file
+                        else:
+                            file_path = os.path.join(rel_root, file)
+                        all_files.append(file_path)
+                
+                # Add directories that match the prefix (for navigation)
+                for dir_name in dirs:
+                    if dir_name.startswith(prefix):
+                        if rel_root == '.':
+                            dir_path = dir_name + os.sep
+                        else:
+                            dir_path = os.path.join(rel_root, dir_name) + os.sep
+                        all_dirs.append(dir_path)
             
-            # Remove duplicates and sort
-            all_files = sorted(set(all_files))
+            # Combine and sort files and directories
+            all_items = sorted(all_dirs + all_files)
             
-            for file in all_files:
-                yield Completion(file, start_position=-len(prefix))
+            for item in all_items:
+                yield Completion(item, start_position=-len(prefix))
+        
+        # Also provide regular path completion without @
+        elif text.startswith('load '):
+            path_text = text[5:]
+            if not path_text.startswith('@'):
+                # Basic path completion for regular load commands
+                current_dir = os.getcwd()
+                if not path_text:
+                    # Show all files and directories in current directory
+                    for item in os.listdir(current_dir):
+                        if os.path.isdir(item):
+                            yield Completion(item + os.sep, start_position=0)
+                        else:
+                            yield Completion(item, start_position=0)
+                else:
+                    # Handle partial paths
+                    if os.path.isdir(path_text):
+                        # Show contents of the directory
+                        for item in os.listdir(path_text):
+                            full_path = os.path.join(path_text, item)
+                            if os.path.isdir(full_path):
+                                yield Completion(full_path + os.sep, start_position=-len(path_text))
+                            else:
+                                yield Completion(full_path, start_position=-len(path_text))
 
 class FileManager:
     def __init__(self):
@@ -52,11 +88,13 @@ class FileManager:
             prefix = load_arg[1:]
             current_dir = os.getcwd()
             
-            # Find files starting with prefix
+            # Find files starting with prefix (recursively)
             matching_files = []
-            for item in os.listdir(current_dir):
-                if os.path.isfile(item) and item.startswith(prefix):
-                    matching_files.append(item)
+            for root, dirs, files in os.walk(current_dir):
+                for file in files:
+                    if file.startswith(prefix):
+                        rel_path = os.path.relpath(os.path.join(root, file), current_dir)
+                        matching_files.append(rel_path)
             
             if not matching_files:
                 console.print(f"[yellow]⚠ No files found starting with '{prefix}'[/yellow]")
@@ -109,6 +147,18 @@ class FileManager:
             else:
                 console.print("[yellow]File creation cancelled.[/yellow]")
                 return None, None
+        
+        # Check if it's a directory
+        if os.path.isdir(path):
+            console.print(f"[yellow]⚠ '{path}' is a directory, not a file.[/yellow]")
+            console.print("[cyan]📁 Directory contents:[/cyan]")
+            for item in os.listdir(path):
+                item_path = os.path.join(path, item)
+                if os.path.isdir(item_path):
+                    console.print(f"  📁 {item}/")
+                else:
+                    console.print(f"  📄 {item}")
+            return None, None
         
         # File exists, load it
         try:
@@ -168,3 +218,21 @@ class FileManager:
         except Exception as e:
             console.print(f"[red]❌ Error creating file: {str(e)}[/red]")
             return None, None
+    
+    def list_directory_contents(self, path="."):
+        """List contents of a directory"""
+        if not os.path.exists(path):
+            console.print(f"[red]❌ Path '{path}' doesn't exist.[/red]")
+            return
+        
+        if not os.path.isdir(path):
+            console.print(f"[yellow]⚠ '{path}' is not a directory.[/yellow]")
+            return
+        
+        console.print(f"[cyan]📁 Contents of '{path}':[/cyan]")
+        for item in os.listdir(path):
+            item_path = os.path.join(path, item)
+            if os.path.isdir(item_path):
+                console.print(f"  📁 {item}/")
+            else:
+                console.print(f"  📄 {item}")

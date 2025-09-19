@@ -2,6 +2,15 @@
 
 A powerful **command-line AI assistant, JUNO AI** that can both **edit code files** and act as a **general-purpose AI chatbot**.  
 
+## 📸 Screenshots
+
+### Starting Interface
+![Starting Interface](images/cli_start.png)
+
+### Example Response
+![Response Example](images/cli_response.png)
+
+
 ## ✨ Features
 
 - **Dual Mode Operation**  

@@ -23,7 +23,7 @@ class AICodeAssistant:
         
         while True:
             try:
-                user_input = self.session.prompt("> ").strip()
+                user_input = self.session.prompt("You: ").strip()
                 if not user_input:
                     continue
                     
