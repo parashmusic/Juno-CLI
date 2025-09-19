@@ -1,0 +1,5 @@
+llama-cpp-python==0.2.73
+rich==13.7.0
+prompt-toolkit==3.0.43
+python-dotenv==1.0.0
+pytest==7.4.3
