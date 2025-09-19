@@ -103,30 +103,7 @@ Once the app is running, try:
 ```
 
 ---
-## 🆕 Auto-File Creation
 
-The assistant can automatically create files if they don't exist:
-
-```bash
-# Create a new Python file
-> load new_script.py
-⚠ File 'new_script.py' doesn't exist.
-Create new file 'new_script.py'? [Y/n]: y
-✅ Created new file: 'new_script.py'
-
-# Create with template
-> load utils/helpers.py
-⚠ File 'utils/helpers.py' doesn't exist.
-Create new file 'utils/helpers.py'? [Y/n]: y
-Use a template? [y/N]: y
-Available templates:
-  1. Python Script
-  2. Python Module
-  3. Empty Python File
-  4. JSON File
-  5. Markdown
-Select template (1-5 or Enter for empty): 2
-✅ Created new file: 'utils/helpers.py'
 ## 🛠 Troubleshooting
 
 - **Model not found error:**  
