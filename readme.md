@@ -2,9 +2,9 @@
 
 A powerful **command-line AI assistant, JUNO AI** that can both **edit code files** and act as a **general-purpose AI chatbot**.  
 
-## 📸 Screenshots
+## 📸 Interface
 
-### Starting Interface
+### INIT Interface
 ![Starting Interface](images/cli_start.png)
 
 ### Example Response
